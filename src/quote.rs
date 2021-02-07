@@ -2,9 +2,9 @@ use rand::seq::IteratorRandom;
 
 use anyhow::{Context, Result};
 
-pub(crate) const QUOTES: &[&str] = &include!(concat!(env!("OUT_DIR"), "/quotes.rs"));
+const QUOTES: &[&str] = &include!(concat!(env!("OUT_DIR"), "/quotes.rs"));
 
-pub fn get_quote(keywords: &str) -> Result<String> {
+pub(crate) fn get_quote(keywords: &str) -> Result<String> {
     let keywords = keywords.to_lowercase();
     let mut rng = rand::thread_rng();
 

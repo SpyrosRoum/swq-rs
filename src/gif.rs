@@ -5,9 +5,9 @@ use json::{self, parse};
 
 const BASE_URL: &str = "https://api.tenor.com/v1/search";
 
-pub fn get_gif(keywords: &str) -> Result<String> {
+pub(crate) fn get_gif(keywords: &str) -> Result<String> {
     let result = request_gif(keywords)?;
-    json_to_gif(result)
+    json_to_gif(&result)
 }
 
 fn request_gif(keywords: &str) -> Result<String> {
@@ -22,7 +22,7 @@ fn request_gif(keywords: &str) -> Result<String> {
         .context("Failed to make string for response")
 }
 
-fn json_to_gif(json: String) -> Result<String> {
+fn json_to_gif(json: &str) -> Result<String> {
     let parsed = parse(&json).unwrap();
     let mut rng = rand::thread_rng();
 

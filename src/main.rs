@@ -3,7 +3,7 @@ mod quote;
 
 use clipboard_ext::{clipboard::ClipboardProvider, x11_fork::ClipboardContext};
 
-use anyhow::Result;
+use anyhow::{anyhow, Result};
 use structopt::StructOpt;
 
 #[derive(Debug, StructOpt)]
@@ -24,9 +24,10 @@ fn main() -> Result<()> {
 
     println!("{}\n", r);
 
-    let mut ctx: ClipboardContext = ClipboardProvider::new().expect("Failed to open clipboard");
+    let mut ctx: ClipboardContext =
+        ClipboardProvider::new().map_err(|_| anyhow!("Failed to open clipboard"))?;
     ctx.set_contents(r)
-        .expect("Failed to set clipboard contents");
+        .map_err(|_| anyhow!("Failed to set clipboard contents"))?;
 
     println!("Added to your clipboard!");
 
